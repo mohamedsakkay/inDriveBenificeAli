@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الربح الصافي - inDrive</title>
+
+    <style>
+      :root {
+        --bg: #0f0f1a;
+        --card: #1a1a2e;
+        --text: #ffffff;
+        --accent: #8a2be2;
+      }
+      .light {
+        --bg: #f2f2f2;
+        --card: #ffffff;
+        --text: #000000;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 380px;
+      }
+
+      .card {
+        background: var(--card);
+        padding: 25px 20px;
+        border-radius: 14px;
+        box-shadow: 0 0 25px rgba(138, 43, 226, 0.35);
+        text-align: center;
+      }
+
+      h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        background: var(--accent);
+        color: white;
+      }
+
+      .result {
+        margin-top: 20px;
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .toggle {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="toggle" onclick="toggleMode()">🌓 Mode</div>
+
+    <div class="container">
+      <div class="card">
+        <h2>الربح الصافي</h2>
+
+        <input type="number" id="prix" placeholder="ثمن الرحلة" />
+        <input type="number" id="distance" placeholder="المسافة" />
+
+        <button onclick="calculer()">Let's Go</button>
+
+        <div class="result" id="resultat"></div>
+      </div>
+    </div>
+
+    <script>
+      // Données de la moto et frais
+      const PRIX_ESSENCE = 11; // dh / litre
+      const CONSO_KM = 0.024; // litres/km
+      const KM_FIXE = 1; // km fixe pour aller au client
+      const FRAIS_APP = 3.57; // dh frais application
+
+      // Calcul du bénéfice
+      function calculer() {
+        let prix = parseFloat(document.getElementById("prix").value);
+        let distance = parseFloat(document.getElementById("distance").value);
+        if (isNaN(prix) || isNaN(distance)) return;
+
+        let distanceReelle = distance + KM_FIXE;
+        let coutEssence = distanceReelle * CONSO_KM * PRIX_ESSENCE;
+        let benefice = prix - coutEssence - FRAIS_APP;
+
+        document.getElementById("resultat").innerText =
+          "الربح الصافي : " + benefice.toFixed(2) +   " درهم";
+      }
+
+      // Toggle light/dark
+      function toggleMode() {
+        document.body.classList.toggle("light");
+      }
+    </script>
+  </body>
+</html>
